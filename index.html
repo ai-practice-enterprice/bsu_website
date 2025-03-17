@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Interface</title>
+    <link rel="stylesheet" href="./CSS/general.css">
+    <link rel="stylesheet" href="./CSS/index.css">
+</head>
+<body>
+
+    <main>
+        <section>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="./index.html">worker Manager</a></li>
+                    <li><a href="./pathsManager.html">path Manager</a></li>
+                    <li><a href="./robotManager.html">robot Manager</a></li>
+                    <li><a href="./zonesManager.html">zone Manager</a></li>
+                </ul>
+            </nav>
+        </section>
+        <section>
+            <aside>
+                <h1>Worker Select Action</h1>
+                <fieldset>
+                    <legend>Select action</legend>
+                    <ul>
+                        <li>
+                            <button class="workers arrival" onclick="sendAction('arrival')">Arrived</button>
+                        </li>
+                        <li>
+                            <button class="workers departure" onclick="sendAction('departure')">Leaving</button>
+                        </li>
+                        <li>
+                            <input class="workers" type="number" name="zone number ID" id="zoneID">
+                        </li>
+                    </ul>
+                </fieldset>
+            </aside>
+            <aside>
+                <fieldset>
+                    <legend>Response</legend>
+                    <div id="server-response-box">
+                        <p id="server-response"></p>
+                    </div>
+                </fieldset>
+            </aside>
+        </section>
+    </main>    
+
+    <script>
+        function sendAction(action) {
+
+            inputZoneID = document.getElementById("zoneID");
+
+            if(inputZoneID.value == ""){
+                return;
+            }
+
+            fetch(`http://127.0.0.1:8000/workers/${action}?_worker_id=1&_zone_id=${inputZoneID.value}`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("server-response").innerText = data)
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>

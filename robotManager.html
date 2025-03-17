@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager interface: Robots</title>
+    <link rel="stylesheet" href="./CSS/general.css">
+    <link rel="stylesheet" href="./CSS/robots.css">
+</head>
+<body>
+    <main>
+        <section>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="./index.html">worker Manager</a></li>
+                    <li><a href="./pathsManager.html">path Manager</a></li>
+                    <li><a href="./robotManager.html">robot Manager</a></li>
+                    <li><a href="./zonesManager.html">zone Manager</a></li>
+                </ul>
+            </nav>
+        </section>
+        <section>
+            <aside>
+                <h1>Robot Manager Interface</h1>
+                <fieldset>
+                    <legend>Select action</legend>
+                    <ul>
+                        <li>
+                            <button class="robots create" onclick="sendAction('register')">Create robot</button>
+                        </li>
+                        <li>
+                            <button class="robots active" onclick="sendAction('activate')">Activate robot</button>
+                        </li>
+                        <li>
+                            <button class="robots inactive" onclick="sendAction('deactivate')">Deactivate robot</button>
+                        </li>
+                        <li>
+                            <button class="robots all" onclick="sendAction('watch')">See all active robots</button>
+                        </li>
+                        <li>
+                            <input class="robots" type="text" id="robotNamespace">
+                        </li>
+                        <li>
+                            <input type="radio" name="robotType" value="jetank" id="jetank_btn">
+                            <input type="radio" name="robotType" value="jetank" id="jetracer_btn">
+                        </li>
+                    </ul>
+                </fieldset>
+            </aside>
+            <aside>
+                <fieldset>
+                    <legend>Response</legend>
+                    <div id="server-response-box">
+                        <p id="server-response"></p>
+                    </div>
+                </fieldset>
+            </aside>
+        </section>
+    </main>    
+
+    <script>
+        function sendAction(action) {
+
+
+            fetch(`http://127.0.0.1:8000/robot/`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("server-response").innerText = data)
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
