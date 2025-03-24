@@ -1,0 +1,414 @@
+:root {
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --secondary-color: #2c3e50;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --light-gray: #f5f5f5;
+    --border-color: #ddd;
+    --text-color: #333;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: var(--light-gray);
+}
+
+h1, h2 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    border-bottom: 2px solid var(--primary-color);
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 1.7rem;
+    margin-top: 0;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: box-shadow var(--transition-speed);
+}
+
+.card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+input[type="text"], 
+input[type="number"], 
+select, 
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input[type="text"]:focus, 
+input[type="number"]:focus, 
+select:focus, 
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.checkbox-group input {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+table th, table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+.status-available, .status-active {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.status-unavailable, .status-inactive {
+    color: var(--danger-color);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.nav-links {
+    display: flex;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color var(--transition-speed);
+}
+
+.nav-links a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width var(--transition-speed);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.action-buttons button {
+    margin-right: 8px;
+    padding: 8px 14px;
+    font-size: 14px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 25px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 6px;
+    margin: 0 5px;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.tab:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.tab.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge-dropzone {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.badge-pickup {
+    background-color: #9b59b6;
+    color: white;
+}
+
+.badge-storage {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.badge-zone {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.path-visualization {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.zone-box {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    width: 150px;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(52, 152, 219, 0.3);
+    transition: transform var(--transition-speed);
+}
+
+.zone-box:hover {
+    transform: translateY(-3px);
+}
+
+.path-arrow {
+    flex-grow: 1;
+    height: 20px;
+    background-image: linear-gradient(to right, #bdc3c7 50%, rgba(0,0,0,0) 0%);
+    background-position: bottom;
+    background-size: 20px 1px;
+    background-repeat: repeat-x;
+    position: relative;
+    margin: 0 20px;
+}
+
+.path-arrow::after {
+    content: '▶';
+    position: absolute;
+    right: -5px;
+    top: -10px;
+    color: #bdc3c7;
+    font-size: 24px;
+}
+
+.coordinate-input {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    background-color: #f8f9fa;
+}
+
+.coordinate-pair {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.coordinate-pair::before {
+    content: '➤';
+    color: var(--primary-color);
+}
+
+.coordinate-pair input {
+    width: 100px;
+}
+
+.add-coordinate-btn {
+    background-color: var(--success-color);
+    margin-right: 10px;
+}
+
+.add-coordinate-btn:hover {
+    background-color: #27ae60;
+}
+
+.remove-coordinate-btn {
+    background-color: var(--danger-color);
+}
+
+.remove-coordinate-btn:hover {
+    background-color: #c0392b;
+}
+
+.robot-list {
+    margin-top: 30px;
+}
+
+/* Button variations */
+.primary-btn {
+    background-color: var(--primary-color);
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.success-btn {
+    background-color: var(--success-color);
+}
+
+.success-btn:hover {
+    background-color: #27ae60;
+}
+
+.danger-btn {
+    background-color: var(--danger-color);
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
+
+.warning-btn {
+    background-color: var(--warning-color);
+}
+
+.warning-btn:hover {
+    background-color: #e67e22;
+} 

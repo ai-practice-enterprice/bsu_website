@@ -3,68 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Worker Interface</title>
-    <link rel="stylesheet" href="./CSS/general.css">
-    <link rel="stylesheet" href="./CSS/index.css">
+    <title>Create Robot</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <main>
-        <section>
-            <nav>
-                <ul class="nav-list">
-                    <li><a href="./index.html">worker Manager</a></li>
-                    <li><a href="./pathsManager.html">path Manager</a></li>
-                    <li><a href="./robotManager.html">robot Manager</a></li>
-                    <li><a href="./zonesManager.html">zone Manager</a></li>
-                </ul>
-            </nav>
-        </section>
-        <section>
-            <aside>
-                <h1>Worker Select Action</h1>
-                <fieldset>
-                    <legend>Select action</legend>
-                    <ul>
-                        <li>
-                            <button class="workers arrival" onclick="sendAction('arrival')">Arrived</button>
-                        </li>
-                        <li>
-                            <button class="workers departure" onclick="sendAction('departure')">Leaving</button>
-                        </li>
-                        <li>
-                            <input class="workers" type="number" name="zone number ID" id="zoneID">
-                        </li>
-                    </ul>
-                </fieldset>
-            </aside>
-            <aside>
-                <fieldset>
-                    <legend>Response</legend>
-                    <div id="server-response-box">
-                        <p id="server-response"></p>
-                    </div>
-                </fieldset>
-            </aside>
-        </section>
-    </main>    
+    <div class="header">
+        <h1>Robot Management</h1>
+        <div class="nav-links">
+            <a href="index.html">Robots</a>
+            <a href="zones.html">Zones</a>
+            <a href="occupancy.html">Occupancy</a>
+        </div>
+    </div>
+    
+    <div class="card">  
+        <h2>Create New Robot</h2>
+        <form id="createRobotForm">
+            <div class="form-group">
+                <label for="robotType">Robot Type</label>
+                <select id="robotType" name="robotType" required>
+                    <option value="jetank">Jetank</option>
+                    <option value="dronebot">Dronebot</option>
+                    <option value="carrier">Carrier</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="robotNamespace">Robot Namespace</label>
+                <input type="text" id="robotNamespace" name="robotNamespace" placeholder="e.g., robot_zone1_001" required>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="robotStatus" name="robotStatus" checked>
+                <label for="robotStatus">Active Status</label>
+            </div>
+            
+            <button type="submit">Create Robot</button>
+        </form>
+    </div>
+    
+    <div class="card robot-list">
+        <h2>Existing Robots</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Namespace</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="robotTableBody">
+                <!-- Loaded dynamically from API -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
-        function sendAction(action) {
+        document.getElementById('createRobotForm').addEventListener('submit', async e => {
+            e.preventDefault();
 
-            inputZoneID = document.getElementById("zoneID");
+            const robotType = document.getElementById('robotType').value;
+            const robotNamespace = document.getElementById('robotNamespace').value;
+            const robotStatus = document.getElementById('robotStatus').checked;
 
-            if(inputZoneID.value == ""){
+            console.log('Creating robot:', {
+                robotType,
+                robotNamespace,
+                robotStatus
+            });
+
+            const response = await fetch("http://localhost:8000/frontend/robot", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    robotType,
+                    robotNamespace,
+                    robotStatus
+                })
+            })
+
+            if(!response.ok) {
+                alert('Failed to create robot');
                 return;
             }
 
-            fetch(`http://127.0.0.1:8000/workers/${action}?_worker_id=1&_zone_id=${inputZoneID.value}`, {
-                method: 'GET',
+            location.reload();
+        });
+        
+        async function toggleStatus(id) {
+            await fetch(`http://localhost:8000/frontend/robot/${id}/toggle`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             })
-            .then(response => response.json())
-            .then(data => document.getElementById("server-response").innerText = data)
-            .catch(error => console.error("Error:", error));
+
+            const rows = document.getElementById('robotTableBody').children;
+            
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].children;
+                
+                if (cells[0].textContent == id) {
+                    const statusCell = cells[3].children[0];
+                    const actionButton = cells[4].children[0];
+                    
+                    const isCurrentlyActive = statusCell.classList.contains('status-active');
+                    
+                    if (isCurrentlyActive) {
+                        statusCell.classList.remove('status-active');
+                        statusCell.classList.add('status-inactive');
+                        statusCell.textContent = 'Inactive';
+                        
+                        actionButton.style.backgroundColor = '#2ecc71';
+                        actionButton.textContent = 'Activate';
+                    } else {
+                        statusCell.classList.remove('status-inactive');
+                        statusCell.classList.add('status-active');
+                        statusCell.textContent = 'Active';
+                        
+                        actionButton.style.backgroundColor = '#e74c3c';
+                        actionButton.textContent = 'Deactivate';
+                    }
+                    
+                    break;
+                }
+            }
         }
+
+        async function getAllRobots() {
+            const response = await fetch("http://localhost:8000/frontend/robot/all", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if(!response.ok) {
+                alert('Failed to fetch robots');
+                return;
+            }
+
+            const robots = await response.json();
+
+            const robotTableBody = document.getElementById('robotTableBody');
+
+            robots.forEach(robot => {
+                console.log(robot)
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${robot.robotID}</td>
+                    <td>${robot.robotType}</td>
+                    <td>${robot.robotNamespace}</td>
+                    <td><span class="${robot.robotStatus ? 'status-active' : 'status-inactive'}">${robot.robotStatus ? 'Active' : 'Inactive'}</span></td>
+                    <td>
+                        <button class="${robot.robotStatus ? 'danger-btn' : 'success-btn'}"
+                            onclick="toggleStatus(${robot.robotID})">
+                            ${robot.robotStatus ? 'Deactivate' : 'Activate'}
+                        </button>
+                    </td>
+                `;
+
+                robotTableBody.appendChild(row);
+            });
+        }
+
+        window.onload = getAllRobots;
     </script>
 </body>
 </html>

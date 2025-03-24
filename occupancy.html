@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zone Occupancy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/occupancy.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Zone Occupancy Management</h1>
+        <div class="nav-links">
+            <a href="index.html">Robots</a>
+            <a href="zones.html">Zones</a>
+            <a href="occupancy.html">Occupancy</a>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Zone Availability</h2>
+        <p>Click to enter an available zone or exit an occupied zone</p>
+        
+        <div id="noZonesMessage" class="no-zones">
+            <p>No zones available. Please create zones in the <a href="zones.html">Zone Management</a> page.</p>
+        </div>
+        
+        <div id="zoneGrid" class="zone-grid">
+            <!-- Will be populated with zone cards from API -->
+        </div>
+    </div>
+    
+    <script>
+        async function loadZones() {
+            try {
+                console.log('Fetching zone data...');
+                
+                // Get all zones
+                const response = await fetch('http://localhost:8000/frontend/zone/all');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch zones: ${response.status}`);
+                }
+                
+                const zones = await response.json();
+                console.log('Zones fetched:', zones);
+                
+                // Handle no zones case
+                const noZonesMessage = document.getElementById('noZonesMessage');
+                const zoneGrid = document.getElementById('zoneGrid');
+                
+                if (zones.length === 0) {
+                    noZonesMessage.style.display = 'block';
+                    zoneGrid.style.display = 'none';
+                    return;
+                }
+                
+                // Show zone grid
+                noZonesMessage.style.display = 'none';
+                zoneGrid.style.display = 'grid';
+                
+                // Clear existing zone cards
+                zoneGrid.innerHTML = '';
+                
+                // Create a card for each zone
+                zones.forEach(zone => {
+                    // Determine badge class based on zone type
+                    let badgeClass = 'badge-dropzone';
+                    if (zone.zoneType.includes('pickup')) {
+                        badgeClass = 'badge-pickup';
+                    } else if (zone.zoneType.includes('storage')) {
+                        badgeClass = 'badge-storage';
+                    }
+                    
+                    const zoneCard = document.createElement('div');
+                    zoneCard.className = 'zone-card';
+                    zoneCard.innerHTML = `
+                        <h3>${zone.zoneName}</h3>
+                        <div class="zone-details">
+                            <p><span class="badge ${badgeClass}">${zone.zoneType}</span></p>
+                            <p>${zone.zoneDescription}</p>
+                            <p>Status: <span class="${zone.zoneCheck ? 'status-unavailable' : 'status-available'}">${zone.zoneCheck ? 'Occupied' : 'Available'}</span></p>
+                        </div>
+                        
+                        <div class="zone-actions">
+                            ${zone.zoneCheck 
+                                ? `<button class="danger-btn" onclick="exitZone(${zone.zoneID})">Exit Zone</button>`
+                                : `<button class="success-btn" onclick="enterZone(${zone.zoneID})">Enter Zone</button>`
+                            }
+                        </div>
+                    `;
+                    
+                    zoneGrid.appendChild(zoneCard);
+                });
+                
+            } catch (error) {
+                console.error('Error loading zones:', error);
+                alert('Failed to load zone data. Please try again later.');
+            }
+        }
+        
+        // Enter a zone (set as checked)
+        async function enterZone(zoneId) {
+            try {
+                console.log(`Entering zone ${zoneId}`);
+                
+                const response = await fetch(`http://localhost:8000/frontend/zone/${zoneId}/enter`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to enter zone');
+                }
+                
+                // Reload zones to refresh UI
+                await loadZones();
+                
+            } catch (error) {
+                console.error('Error entering zone:', error);
+                alert(error.message || 'Failed to enter zone. Please try again.');
+            }
+        }
+        
+        // Exit a zone (set as not checked)
+        async function exitZone(zoneId) {
+            try {
+                console.log(`Exiting zone ${zoneId}`);
+                
+                const response = await fetch(`http://localhost:8000/frontend/zone/${zoneId}/exit`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to exit zone');
+                }
+                
+                // Reload zones to refresh UI
+                await loadZones();
+                
+            } catch (error) {
+                console.error('Error exiting zone:', error);
+                alert(error.message || 'Failed to exit zone. Please try again.');
+            }
+        }
+
+        let interval = null;
+        
+        window.onload = function() {
+            loadZones();
+            interval = setInterval(loadZones, 30000);
+        };
+
+        window.onbeforeunload = function() {
+            clearInterval(interval);
+        };
+    </script>
+</body>
+</html>
