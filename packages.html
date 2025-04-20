@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package data</title>
+    <link rel="stylesheet" href="css/bsu_general_style.css">
+    <link rel="icon" type="image/x-icon" href="./assets/bsu_ai_icon.svg">
+</head>
+<body>
+    <div class="header">
+        <h1>Packages Overview</h1>
+        <div class="nav-links">
+            <a href="./index.html">Robots</a>
+            <a href="./zones.html">Zones</a>
+            <a href="./occupancy.html">Occupancy</a>
+            <a href="./packages.html">Packages</a>
+            <a href="./warehouse.html">Warehouse</a>
+        </div>
+    </div>
+
+    <div class="tabs" id="tabs-nav">
+        <div class="tab active" data-tab-id="tab-1">Intake</div>
+        <div class="tab" data-tab-id="tab-2">Storage</div>
+    </div>
+
+    <div class="tabs" id="tabs-chart-nav">
+        <div class="tab active" data-mode="line chart">line chart</div>
+        <div class="tab" data-mode="calendar">Calendar</div>
+    </div>
+
+    <div class="card" id="data-holder">
+        <!-- Will be populated with the API -->
+    </div>
+
+    <script src="./javascript/libraries/d3.js"></script>
+    <script src="./javascript/libraries/plot.js"></script>
+    <script src="./javascript/page_specific/packages.js"></script>
+</body>
+</html>

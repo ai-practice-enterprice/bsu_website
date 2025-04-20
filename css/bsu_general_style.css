@@ -1,22 +1,79 @@
 :root {
+    /* General */ /* ================================================= */
     --primary-color: #3498db;
     --primary-dark: #2980b9;
     --secondary-color: #2c3e50;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+    
     --success-color: #2ecc71;
     --danger-color: #e74c3c;
     --warning-color: #f39c12;
     --light-gray: #f5f5f5;
     --border-color: #ddd;
     --text-color: #333;
-    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    --transition-speed: 0.3s;
+
+    /* Badges */ /* ================================================= */
+    --alpha-badge-bg-clr: 0.4;
+    
+    --badge-void-clr: hsl(0, 0%, 58%);
+    --badge-void-bg-clr: hsl(0, 0%, 10%);
+    --badge-void-box-sh: 0px 0px 5px 2px var(--badge-void-clr); 
+    --badge-void-br: 3px solid var(--badge-void-clr);
+  
+    --badge-robotStation-clr: hsl(215, 28%, 50%);
+    --badge-robotStation-bg-clr: hsl(216, 34%, 17%);
+    --badge-robotStation-box-sh: 0px 0px 5px 2px var(--badge-robotStation-clr); 
+    --badge-robotStation-br: 3px solid var(--badge-robotStation-clr);
+  
+    --badge-storage-clr: hsl(281, 19%, 55%);
+    --badge-storage-bg-clr: hsl(278, 15%, 22%);
+    --badge-storage-box-sh: 0px 0px 5px 2px var(--badge-storage-clr); 
+    --badge-storage-br: 3px solid var(--badge-storage-clr);
+  
+    --badge-zoneIn-clr: hsl(98, 43%, 30%);
+    --badge-zoneIn-bg-clr: hsl(116, 22%, 15%);
+    --badge-zoneIn-box-sh: 0px 0px 5px 2px var(--badge-zoneIn-clr); 
+    --badge-zoneIn-br: 3px solid var(--badge-zoneIn-clr);
+  
+    --badge-errorZone-clr: hsl(2, 53%, 67%);
+    --badge-errorZone-bg-clr: hsl(3, 31%, 24%);
+    --badge-errorZone-box-sh: 0px 0px 5px 2px var(--badge-errorZone-clr); 
+    --badge-errorZone-br: 3px solid var(--badge-errorZone-clr);
+  
+    --badge-normal-clr: hsl(40, 100%, 30%);
+    --badge-normal-bg-clr: hsl(31, 69%, 13%);
+    --badge-normal-box-sh: 0px 0px 5px 2px var(--badge-normal-clr); 
+    --badge-normal-br: 3px solid var(--badge-normal-clr);
+  
+    --badge-zoneOut-clr: hsl(98, 43%, 30%);
+    --badge-zoneOut-bg-clr: hsl(116, 22%, 15%);
+    --badge-zoneOut-box-sh: 0px 0px 5px 2px var(--badge-zoneOut-clr); 
+    --badge-zoneOut-br: 3px solid var(--badge-zoneOut-clr);
+  
+    --badge-dropZoneIn-clr: hsl(98, 43%, 30%);
+    --badge-dropZoneIn-bg-clr:hsl(116, 22%, 15%);
+    --badge-dropZoneIn-box-sh: 0px 0px 5px 2px var(--badge-dropZoneIn-clr); 
+    --badge-dropZoneIn-br: 3px solid var(--badge-dropZoneIn-clr);
+
+    --badge-dropZoneOut-clr: hsl(98, 43%, 30%);
+    --badge-dropZoneOut-bg-clr:hsl(116, 22%, 15%);
+    --badge-dropZoneOut-box-sh: 0px 0px 5px 2px var(--badge-dropZoneOut-clr); 
+    --badge-dropZoneOut-br: 3px solid var(--badge-dropZoneOut-clr);
+
+    --badge-default-clr: hsl(0, 0%, 13%);
+    --badge-default-bg-clr: hsl(210, 5%, 74%);
+    --badge-default-box-sh: 0px 0px 5px 2px var(--badge-default-clr); 
+    --badge-default-br: 3px solid var(--badge-default-clr);
+    /* Badges */ /* ================================================= */
+
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 25px;
     background-color: var(--light-gray);
@@ -61,6 +118,13 @@ form {
     margin-bottom: 20px;
 }
 
+.flex-group {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    gap: 15px;
+}
+
 label {
     display: block;
     margin-bottom: 8px;
@@ -98,12 +162,12 @@ textarea {
     display: flex;
     align-items: center;
     margin-bottom: 12px;
-}
 
-.checkbox-group input {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
+    & input {
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+    }
 }
 
 button {
@@ -117,15 +181,15 @@ button {
     cursor: pointer;
     margin-top: 10px;
     transition: background-color var(--transition-speed), transform var(--transition-speed);
-}
 
-button:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-}
+    &:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
 
-button:active {
-    transform: translateY(0);
+    &:active {
+        transform: translateY(0);
+    }
 }
 
 table {
@@ -135,26 +199,26 @@ table {
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-}
 
-table th, table td {
-    padding: 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-}
+    & td, & th {
+        padding: 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
 
-table th {
-    background-color: #f2f2f2;
-    color: var(--secondary-color);
-    font-weight: 600;
-}
+    & th {
+        background-color: #f2f2f2;
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+    
+    & tr:last-child td {
+        border-bottom: none;
+    }
 
-table tr:last-child td {
-    border-bottom: none;
-}
-
-table tr:hover {
-    background-color: rgba(52, 152, 219, 0.05);
+    & tr:hover {
+        background-color: rgba(52, 152, 219, 0.05);
+    }
 }
 
 .status-available, .status-active {
@@ -164,6 +228,7 @@ table tr:hover {
 
 .status-unavailable, .status-inactive {
     color: var(--danger-color);
+    font-weight: bold;
 }
 
 .header {
@@ -219,33 +284,32 @@ table tr:hover {
     border-radius: 8px;
     padding: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
+    
+    & .tab {
+        padding: 12px 20px;
+        cursor: pointer;
+        font-weight: 600;
+        border-radius: 6px;
+        margin: 0 5px;
+        transition: background-color var(--transition-speed), color var(--transition-speed);
 
-.tab {
-    padding: 12px 20px;
-    cursor: pointer;
-    font-weight: 600;
-    border-radius: 6px;
-    margin: 0 5px;
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-}
+        &:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
 
-.tab:hover {
-    background-color: rgba(52, 152, 219, 0.1);
-}
-
-.tab.active {
-    background-color: var(--primary-color);
-    color: white;
+        &.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    }
 }
 
 .tab-content {
     display: none;
     animation: fadeIn 0.3s ease;
-}
-
-.tab-content.active {
-    display: block;
+    &.active {
+        display: block;
+    }
 }
 
 @keyframes fadeIn {
@@ -260,27 +324,65 @@ table tr:hover {
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
+
+    
+    &.badge-dropzonein {
+        background-color: var(--badge-dropZoneIn-bg-clr);
+        box-shadow: var(--badge-dropZoneIn-box-sh);
+        border: var(--badge-dropZoneIn-br);
+        color: white;
+    }
+
+    &.badge-errorzone {
+        background-color: var(--badge-errorZone-bg-clr);
+        box-shadow: var(--badge-errorZone-box-sh);
+        border: var(--badge-errorZone-br);
+        color: white;
+    }
+
+    &.badge-robotstation {
+        background-color: var(--badge-robotStation-bg-clr);
+        box-shadow: var(--badge-robotStation-box-sh);
+        border: var(--badge-robotStation-br);
+        color: white;
+    }
+    
+    &.badge-void {
+        background-color: var(--badge-void-bg-clr);
+        box-shadow: var(--badge-void-box-sh);
+        border: var(--badge-void-br);
+        color: white;
+    }
+    
+    &.badge-storage {
+        background-color: var(--badge-storage-bg-clr);
+        box-shadow: var(--badge-storage-box-sh);
+        border: var(--badge-storage-br);
+        color: white;
+    }
+    
+    &.badge-dropzoneout {
+        background-color: var(--badge-dropZoneOut-bg-clr);
+        box-shadow: var(--badge-dropZoneOut-box-sh);
+        border: var(--badge-dropZoneOut-br);
+        color: white;
+    }
+    
+    &.badge-normal {
+        background-color: var(--badge-normal-bg-clr);
+        box-shadow: var(--badge-normal-box-sh);
+        border: var(--badge-normal-br);
+        color: white;
+    }
+    
+    &.badge-zone {
+        background-color: var(--badge-default-bg-clr);
+        box-shadow: var(--badge-default-box-sh);
+        border: var(--badge-default-br);
+        color: white;
+    }
 }
 
-.badge-dropzone {
-    background-color: var(--warning-color);
-    color: white;
-}
-
-.badge-pickup {
-    background-color: #9b59b6;
-    color: white;
-}
-
-.badge-storage {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.badge-zone {
-    background-color: var(--primary-color);
-    color: white;
-}
 
 .form-row {
     display: flex;

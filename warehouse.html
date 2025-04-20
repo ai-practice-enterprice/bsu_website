@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warehouse</title>
+    <title>BSU : Warehouse</title>
     <link rel="stylesheet" href="./css/bsu_general_style.css">
     <link rel="stylesheet" href="./css/warehouse.css">
     <link rel="stylesheet" href="css/occupancy.css">
@@ -16,19 +16,30 @@
             <a href="./index.html">Robots</a>
             <a href="./zones.html">Zones</a>
             <a href="./occupancy.html">Occupancy</a>
+            <a href="./packages.html">Packages</a>
             <a href="./warehouse.html">Warehouse</a>
         </div>
     </div>
 
     <div class="form-group" style="flex: 1;">
-        <div class="card" id="warehouse_map">  
-            
-            <!-- Will be populated with API -->
+        <div class="flex-group">
+            <div class="card" id="warehouse_map">  
+                <!-- Will be populated with API -->
+            </div>
+            <div class="card" id="data-holder">
+                <!-- Will be populated with API -->
+            </div>
         </div>
         <div class="card zonedata">
             <!-- Will be populated with API -->
         </div>
     </div>
-    <script src="./javascript/warehouse.js"></script>
+    <script src="./javascript/libraries/d3.js"></script>
+    <script src="./javascript/libraries/plot.js"></script>
+    <script src="./javascript/utils/buildSelectZoneType.js"></script>
+    <script src="./javascript/utils/enterZone.js"></script>
+    <script src="./javascript/utils/exitZone.js"></script>
+    <script src="./javascript/utils/buildZoneCard.js"></script>
+    <script type="module" src="./javascript/page_specific/warehouse.js"></script>
 </body>
 </html>
