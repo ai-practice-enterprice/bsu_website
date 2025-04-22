@@ -1,6 +1,9 @@
 async function buildSelectZoneType(mode="create",zoneID) {
     const response = await fetch("http://localhost:8000/frontend/zone/type/all", {
         method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
 
     if (!response.ok) {

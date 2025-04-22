@@ -61,6 +61,8 @@ async function addchartData(){
                 grid: true
             },
             
+            tip: true,
+            
             marks: [
                 Plot.barY(data, {
                     x: "zoneTypeName",
@@ -108,11 +110,15 @@ async function fetchZoneData(zoneId) {
 
 async function displayZoneData(zone) {
     const zoneDataContainer = document.querySelector(".zonedata");
-    zoneCard = await buildZoneCard(zone,"rect","warehouse map");
-    zoneDataContainer.innerHTML = zoneCard.outerHTML;
+    try {
+        let zoneCard = await buildZoneCard(zone,"rect","warehouse map");
+        zoneDataContainer.innerHTML = zoneCard.outerHTML;
+    } catch (error) {
+        console.log("Error displaying data: " + error);
+    }
 
     zoneDataContainer.querySelectorAll(".zoneCapacity").forEach((ele) => {
-        ele.addEventListener("change", (e) => {
+        ele.addEventListener("input", (e) => {
             document.querySelector(".new-capacity").innerText = e.target.value;
         });
     });

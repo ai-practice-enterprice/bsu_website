@@ -26,7 +26,7 @@ async function buildZoneCard(zone,mode = "rect",reloadMode = "card" | "warehouse
             break;
     }
     
-    return element
+    return element;
 }
 
 async function rowCard(zone,badgeClass) {    
@@ -46,12 +46,16 @@ async function rowCard(zone,badgeClass) {
             <button class="warning-btn" onclick="editZone(${zone.zoneID})">Edit</button>
         </td>
     `;     
-    return row  
+    return row;
 }
 
 async function rectangleCard(zone,badgeClass,reloadMode) {
-
-    selectElement = await buildSelectZoneType(mode="create",zone.zoneID);
+    let selectElement = null;
+    try {
+        selectElement = await buildSelectZoneType(mode="create",zone.zoneID);
+    } catch (error) {
+        console.log("could not fetch zone types: " + error);
+    }
     let selectHTML = selectElement.outerHTML;
 
     const zoneCard = document.createElement('div');
@@ -108,11 +112,11 @@ async function rectangleCard(zone,badgeClass,reloadMode) {
             }
         </div>`
     }
-    return zoneCard
+    return zoneCard;
 }
 
 async function changeZoneCapacity(zoneID,reloadMode) {
-    newZoneCapacity = document.getElementById("zoneCapacity").value;
+    let newZoneCapacity = document.getElementById("zoneCapacity").value;
     const response = await fetch(`http://localhost:8000/frontend/zone/change/capacity?zone_id=${zoneID}&new_zone_capacity=${newZoneCapacity}`, {
         method: 'GET',
         headers: {
@@ -135,7 +139,7 @@ async function changeZoneCapacity(zoneID,reloadMode) {
 } 
 
 async function changeZoneType(zoneID,reloadMode) {
-    newZoneType = document.getElementById("zoneType").value;
+    let newZoneType = document.getElementById("zoneType").value;
     const response = await fetch(`http://localhost:8000/frontend/zone/change/type?zone_id=${zoneID}&new_zone_type=${newZoneType}`, {
         method: 'GET',
         headers: {
